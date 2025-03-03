@@ -28,4 +28,11 @@
       <InternalsVisibleTo Include="$(AssemblyName).Tests"/>
    </ItemGroup>
 
+   <ItemGroup>
+      <PackageReference Include="Aprico.Messaging.Abstractions"/>
+      <PackageReference Include="Aprico.Messaging.Xml"/>
+      <PackageReference Include="Azure.Messaging.ServiceBus"/>
+      <PackageReference Include="Be.Stateless.Extensions"/>
+   </ItemGroup>
+
 </Project>
