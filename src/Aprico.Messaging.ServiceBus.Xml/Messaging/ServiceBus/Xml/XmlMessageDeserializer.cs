@@ -25,11 +25,30 @@ using Azure.Messaging.ServiceBus;
 
 namespace Aprico.Messaging.ServiceBus.Xml;
 
+/// <summary>
+/// Provides XML deserialization functionality for <see cref="ServiceBusReceivedMessage"/>'s
+/// <see cref="ServiceBusReceivedMessage.Body"/>.
+/// </summary>
+/// <remarks>
+/// This class implements message deserialization for XML-based messages in a Service Bus context. It inherits from
+/// <see cref="AbstractXmlMessageDeserializer{XmlMessageDeserializer}"/> and implements the
+/// <see cref="IMessageDeserializer{ServiceBusReceivedMessage}"/> interface.
+/// </remarks>
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global", Justification = "Public API.")]
 public class XmlMessageDeserializer : AbstractXmlMessageDeserializer<XmlMessageDeserializer>, IMessageDeserializer<ServiceBusReceivedMessage>
 {
 	#region IMessageDeserializer<ServiceBusReceivedMessage> Members
 
+	/// <summary>Deserializes the body of a <see cref="ServiceBusReceivedMessage"/> to its corresponding object type.</summary>
+	/// <param name="message">
+	/// The <see cref="ServiceBusReceivedMessage"/> message whose <see cref="ServiceBusReceivedMessage.Body"/> is
+	/// to be deserialized.
+	/// </param>
+	/// <returns>
+	/// The deserialized object representing the
+	/// <see cref="ServiceBusReceivedMessage.Body">ServiceBusReceivedMessage.Body</see>.
+	/// </returns>
+	/// <exception cref="ArgumentNullException">Thrown if the <paramref name="message"/> is <see langword="null"/>.</exception>
 	public object DeserializeBody(ServiceBusReceivedMessage message)
 	{
 		ArgumentNullException.ThrowIfNull(message);

@@ -26,11 +26,33 @@ using Be.Stateless.Extensions;
 
 namespace Aprico.Messaging.ServiceBus.Xml;
 
+/// <summary>Provides XML message serialization functionality for <see cref="ServiceBusMessage"/>s.</summary>
+/// <remarks>
+/// This class implements message serialization for XML-based messages in a Service Bus context, supporting custom context
+/// properties and configurations.
+/// </remarks>
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global", Justification = "Public API.")]
 public class XmlMessageSerializer : IMessageSerializer<ServiceBusMessage>
 {
 	#region IMessageSerializer<ServiceBusMessage> Members
 
+	/// <summary>Serializes a body object into a <see cref="ServiceBusMessage"/> with optional context properties.</summary>
+	/// <typeparam name="TBody">The XML contract type of the message body, which must be a non-null type.</typeparam>
+	/// <param name="body">The body object to be serialized.</param>
+	/// <param name="messageId">Optional unique identifier for the message. Generated if not provided.</param>
+	/// <param name="correlationId">Optional correlation identifier for the message.</param>
+	/// <param name="sessionId">Optional session identifier for the message.</param>
+	/// <param name="businessId">Optional <see cref="ApplicationPropertyNames.BusinessId"/> for the message.</param>
+	/// <param name="timestamp">
+	/// Optional <see cref="ApplicationPropertyNames.Timestamp"/> for the message. Uses current UTC time if not
+	/// provided.
+	/// </param>
+	/// <param name="scheduledEnqueueTime">Optional scheduled enqueue time for the message. Uses current UTC time if not provided.</param>
+	/// <returns>
+	/// A <see cref="ServiceBusMessage"/> whose <see cref="ServiceBusMessage.Body"/> contains the serialized representation of
+	/// the given <paramref name="body"/> argument.
+	/// </returns>
+	/// <exception cref="ArgumentNullException">Thrown if the <paramref name="body"/> is <see langword="null"/>.</exception>
 	public ServiceBusMessage Serialize<TBody>(
 		TBody body,
 		string? messageId = null,
@@ -50,9 +72,9 @@ public class XmlMessageSerializer : IMessageSerializer<ServiceBusMessage>
 			ReplyToSessionId = sessionId,
 			ScheduledEnqueueTime = scheduledEnqueueTime ?? DateTimeOffset.UtcNow
 		};
-		message.ApplicationProperties.Add(ApplicationPropertyNames.MESSAGE_TYPE_PROPERTY, body.GetXmlFullyQualifiedName());
-		message.ApplicationProperties.Add(ApplicationPropertyNames.TIMESTAMP_PROPERTY, (timestamp ?? DateTimeOffset.UtcNow).ToString("o"));
-		businessId.IfNotNullOrEmpty(bid => message.ApplicationProperties.Add(ApplicationPropertyNames.BUSINESS_ID_PROPERTY, bid));
+		message.ApplicationProperties.Add(ApplicationPropertyNames.MessageBodyType, body.GetXmlFullyQualifiedName());
+		message.ApplicationProperties.Add(ApplicationPropertyNames.Timestamp, (timestamp ?? DateTimeOffset.UtcNow).ToString("o"));
+		businessId.IfNotNullOrEmpty(bid => message.ApplicationProperties.Add(ApplicationPropertyNames.BusinessId, bid));
 		return message;
 	}
 

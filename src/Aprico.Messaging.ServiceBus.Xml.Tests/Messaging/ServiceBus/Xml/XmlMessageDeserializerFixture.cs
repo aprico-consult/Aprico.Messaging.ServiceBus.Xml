@@ -67,7 +67,7 @@ public class XmlMessageDeserializerFixture
 		var message = ServiceBusModelFactory.ServiceBusReceivedMessage(
 			new BinaryData(new T().SerializeAsXmlBinary()),
 			properties: new Dictionary<string, object> {
-				{ ApplicationPropertyNames.MESSAGE_TYPE_PROPERTY, typeof(T).GetXmlFullyQualifiedName() }
+				{ ApplicationPropertyNames.MessageBodyType, typeof(T).GetXmlFullyQualifiedName() }
 			});
 		return message;
 	}

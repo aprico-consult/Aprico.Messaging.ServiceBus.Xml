@@ -31,12 +31,12 @@ public abstract class ServiceBusReceivedMessageExtensionsFixture
 	public class CopyContextPropertiesTo : ServiceBusReceivedMessageExtensionsFixture
 	{
 		[Theory]
-		[InlineAutoData(ApplicationPropertyNames.BUSINESS_ID_PROPERTY, false, true)]
-		[InlineAutoData(ApplicationPropertyNames.BUSINESS_ID_PROPERTY, true, false)]
-		[InlineAutoData(ApplicationPropertyNames.MESSAGE_TYPE_PROPERTY, false, true)]
-		[InlineAutoData(ApplicationPropertyNames.MESSAGE_TYPE_PROPERTY, true, false)]
-		[InlineAutoData(ApplicationPropertyNames.TIMESTAMP_PROPERTY, false, true)]
-		[InlineAutoData(ApplicationPropertyNames.TIMESTAMP_PROPERTY, true, false)]
+		[InlineAutoData(ApplicationPropertyNames.BusinessId, false, true)]
+		[InlineAutoData(ApplicationPropertyNames.BusinessId, true, false)]
+		[InlineAutoData(ApplicationPropertyNames.MessageBodyType, false, true)]
+		[InlineAutoData(ApplicationPropertyNames.MessageBodyType, true, false)]
+		[InlineAutoData(ApplicationPropertyNames.Timestamp, false, true)]
+		[InlineAutoData(ApplicationPropertyNames.Timestamp, true, false)]
 		[InlineAutoData("SomeProperty", false, true)]
 		[InlineAutoData("SomeProperty", true, true)]
 		public void CanIgnoreBusinessContextProperties(
@@ -56,10 +56,10 @@ public abstract class ServiceBusReceivedMessageExtensionsFixture
 		}
 
 		[Theory]
-		[InlineAutoData(ApplicationPropertyNames.DEAD_LETTER_REASON_PROPERTY, false, true)]
-		[InlineAutoData(ApplicationPropertyNames.DEAD_LETTER_REASON_PROPERTY, true, false)]
-		[InlineAutoData(ApplicationPropertyNames.DEAD_LETTER_ERROR_DESCRIPTION_PROPERTY, false, true)]
-		[InlineAutoData(ApplicationPropertyNames.DEAD_LETTER_ERROR_DESCRIPTION_PROPERTY, true, false)]
+		[InlineAutoData(ApplicationPropertyNames.DeadLetterReason, false, true)]
+		[InlineAutoData(ApplicationPropertyNames.DeadLetterReason, true, false)]
+		[InlineAutoData(ApplicationPropertyNames.DeadLetterErrorDescription, false, true)]
+		[InlineAutoData(ApplicationPropertyNames.DeadLetterErrorDescription, true, false)]
 		[InlineAutoData("SomeProperty", false, true)]
 		[InlineAutoData("SomeProperty", true, true)]
 		public void CanIgnoreDeadLetterContextProperties(
@@ -89,7 +89,7 @@ public abstract class ServiceBusReceivedMessageExtensionsFixture
 		[AutoData]
 		public void ReturnsBusinessId(string businessIdValue)
 		{
-			var message = CreateServiceBusReceivedMessage(ApplicationPropertyNames.BUSINESS_ID_PROPERTY, businessIdValue);
+			var message = CreateServiceBusReceivedMessage(ApplicationPropertyNames.BusinessId, businessIdValue);
 			message.GetBusinessId()
 				.Should()
 				.Be(businessIdValue);
@@ -124,7 +124,7 @@ public abstract class ServiceBusReceivedMessageExtensionsFixture
 		[AutoData]
 		public void ReturnsMessageType(string messageType)
 		{
-			var message = CreateServiceBusReceivedMessage(ApplicationPropertyNames.MESSAGE_TYPE_PROPERTY, messageType);
+			var message = CreateServiceBusReceivedMessage(ApplicationPropertyNames.MessageBodyType, messageType);
 			message.GetMessageBodyType()
 				.Should()
 				.Be(messageType);
@@ -159,7 +159,7 @@ public abstract class ServiceBusReceivedMessageExtensionsFixture
 		[AutoData]
 		public void ReturnsTimestamp(DateTimeOffset timestampValue)
 		{
-			var message = CreateServiceBusReceivedMessage(ApplicationPropertyNames.TIMESTAMP_PROPERTY, timestampValue.ToString("o"));
+			var message = CreateServiceBusReceivedMessage(ApplicationPropertyNames.Timestamp, timestampValue.ToString("o"));
 			message.GetTimestamp()
 				.Should()
 				.Be(timestampValue);
@@ -187,7 +187,7 @@ public abstract class ServiceBusReceivedMessageExtensionsFixture
 		[AutoData]
 		public void ThrowsWhenValueHasWrongFormat(DateTimeOffset timestampValue)
 		{
-			var message = CreateServiceBusReceivedMessage(ApplicationPropertyNames.TIMESTAMP_PROPERTY, timestampValue.ToString("d"));
+			var message = CreateServiceBusReceivedMessage(ApplicationPropertyNames.Timestamp, timestampValue.ToString("d"));
 			Invoking(() => message.GetTimestamp())
 				.Should()
 				.Throw<FormatException>();
@@ -215,7 +215,7 @@ public abstract class ServiceBusReceivedMessageExtensionsFixture
 		[AutoData]
 		public void ReturnsTrueAndBusinessId(string businessIdValue)
 		{
-			var message = CreateServiceBusReceivedMessage(ApplicationPropertyNames.BUSINESS_ID_PROPERTY, businessIdValue);
+			var message = CreateServiceBusReceivedMessage(ApplicationPropertyNames.BusinessId, businessIdValue);
 			message.TryGetBusinessId(out var businessId)
 				.Should()
 				.BeTrue();
@@ -252,7 +252,7 @@ public abstract class ServiceBusReceivedMessageExtensionsFixture
 		[AutoData]
 		public void ReturnsTrueAndMessageType(string messageType)
 		{
-			var message = CreateServiceBusReceivedMessage(ApplicationPropertyNames.MESSAGE_TYPE_PROPERTY, messageType);
+			var message = CreateServiceBusReceivedMessage(ApplicationPropertyNames.MessageBodyType, messageType);
 			message.TryGetMessageBodyType(out var messageTypeValue)
 				.Should()
 				.BeTrue();
@@ -289,7 +289,7 @@ public abstract class ServiceBusReceivedMessageExtensionsFixture
 		[AutoData]
 		public void ReturnsTrueAndTimestamp(DateTimeOffset timestampValue)
 		{
-			var message = CreateServiceBusReceivedMessage(ApplicationPropertyNames.TIMESTAMP_PROPERTY, timestampValue.ToString("o"));
+			var message = CreateServiceBusReceivedMessage(ApplicationPropertyNames.Timestamp, timestampValue.ToString("o"));
 			message.TryGetTimestamp(out var timestamp)
 				.Should()
 				.BeTrue();
@@ -310,7 +310,7 @@ public abstract class ServiceBusReceivedMessageExtensionsFixture
 		[AutoData]
 		public void ThrowsWhenValueHasWrongFormat(DateTimeOffset timestampValue)
 		{
-			var message = CreateServiceBusReceivedMessage(ApplicationPropertyNames.TIMESTAMP_PROPERTY, timestampValue.ToString("d"));
+			var message = CreateServiceBusReceivedMessage(ApplicationPropertyNames.Timestamp, timestampValue.ToString("d"));
 			Invoking(() => message.TryGetTimestamp(out _))
 				.Should()
 				.Throw<FormatException>();

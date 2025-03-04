@@ -40,7 +40,7 @@ public class XmlMessageSerializerFixture
 	public void CanSerializeFullyQualifiedContract(XmlMessageSerializer sut)
 	{
 		var message = sut.Serialize(new FullyQualifiedDummy());
-		message.ApplicationProperties[ApplicationPropertyNames.MESSAGE_TYPE_PROPERTY]
+		message.ApplicationProperties[ApplicationPropertyNames.MessageBodyType]
 			.Should()
 			.Be(typeof(FullyQualifiedDummy).GetXmlFullyQualifiedName());
 	}
@@ -50,7 +50,7 @@ public class XmlMessageSerializerFixture
 	public void CanSerializePartiallyQualifiedContract(XmlMessageSerializer sut)
 	{
 		var message = sut.Serialize(new PartiallyQualifiedDummy());
-		message.ApplicationProperties[ApplicationPropertyNames.MESSAGE_TYPE_PROPERTY]
+		message.ApplicationProperties[ApplicationPropertyNames.MessageBodyType]
 			.Should()
 			.Be(typeof(PartiallyQualifiedDummy).GetXmlFullyQualifiedName());
 	}
@@ -83,10 +83,10 @@ public class XmlMessageSerializerFixture
 			.Be(correlationId);
 		message.ReplyToSessionId.Should()
 			.Be(sessionId);
-		message.ApplicationProperties[ApplicationPropertyNames.BUSINESS_ID_PROPERTY]
+		message.ApplicationProperties[ApplicationPropertyNames.BusinessId]
 			.Should()
 			.Be(businessId);
-		message.ApplicationProperties[ApplicationPropertyNames.TIMESTAMP_PROPERTY]
+		message.ApplicationProperties[ApplicationPropertyNames.Timestamp]
 			.Should()
 			.Be(timestamp.ToString("o"));
 		message.ScheduledEnqueueTime.Should()
