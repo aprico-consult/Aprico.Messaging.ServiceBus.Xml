@@ -1,13 +1,13 @@
 #region Copyright & License
 
 // Copyright © 2024 - 2025 Aprico Consultants
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 // http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -116,16 +116,16 @@ public abstract class ServiceBusReceivedMessageExtensionsFixture
 
 	#endregion
 
-	#region Nested Type: GetMessageType
+	#region Nested Type: GetMessageBodyType
 
-	public class GetMessageType : ServiceBusReceivedMessageExtensionsFixture
+	public class GetMessageBodyType : ServiceBusReceivedMessageExtensionsFixture
 	{
 		[Theory]
 		[AutoData]
 		public void ReturnsMessageType(string messageType)
 		{
 			var message = CreateServiceBusReceivedMessage(ApplicationPropertyNames.MESSAGE_TYPE_PROPERTY, messageType);
-			message.GetMessageType()
+			message.GetMessageBodyType()
 				.Should()
 				.Be(messageType);
 		}
@@ -134,7 +134,7 @@ public abstract class ServiceBusReceivedMessageExtensionsFixture
 		[SuppressMessage("ReSharper", "NullableWarningSuppressionIsUsed")]
 		public void ThrowsWhenMessageIsNull()
 		{
-			Invoking(static () => ((ServiceBusReceivedMessage) null!).GetMessageType())
+			Invoking(static () => ((ServiceBusReceivedMessage) null!).GetMessageBodyType())
 				.Should()
 				.Throw<ArgumentNullException>();
 		}
@@ -143,7 +143,7 @@ public abstract class ServiceBusReceivedMessageExtensionsFixture
 		public void ThrowsWhenPropertyIsMissing()
 		{
 			var message = CreateServiceBusReceivedMessage();
-			Invoking(() => message.GetMessageType())
+			Invoking(() => message.GetMessageBodyType())
 				.Should()
 				.Throw<InvalidOperationException>();
 		}
@@ -235,15 +235,15 @@ public abstract class ServiceBusReceivedMessageExtensionsFixture
 
 	#endregion
 
-	#region Nested Type: TryGetMessageType
+	#region Nested Type: TryGetMessageBodyType
 
-	public class TryGetMessageType : ServiceBusReceivedMessageExtensionsFixture
+	public class TryGetMessageBodyType : ServiceBusReceivedMessageExtensionsFixture
 	{
 		[Fact]
 		public void ReturnsFalseWhenPropertyIsMissing()
 		{
 			var message = CreateServiceBusReceivedMessage();
-			message.TryGetMessageType(out _)
+			message.TryGetMessageBodyType(out _)
 				.Should()
 				.BeFalse();
 		}
@@ -253,7 +253,7 @@ public abstract class ServiceBusReceivedMessageExtensionsFixture
 		public void ReturnsTrueAndMessageType(string messageType)
 		{
 			var message = CreateServiceBusReceivedMessage(ApplicationPropertyNames.MESSAGE_TYPE_PROPERTY, messageType);
-			message.TryGetMessageType(out var messageTypeValue)
+			message.TryGetMessageBodyType(out var messageTypeValue)
 				.Should()
 				.BeTrue();
 			messageTypeValue.Should()
@@ -264,7 +264,7 @@ public abstract class ServiceBusReceivedMessageExtensionsFixture
 		[SuppressMessage("ReSharper", "NullableWarningSuppressionIsUsed")]
 		public void ThrowsWhenMessageIsNull()
 		{
-			Invoking(static () => ((ServiceBusReceivedMessage) null!).TryGetMessageType(out _))
+			Invoking(static () => ((ServiceBusReceivedMessage) null!).TryGetMessageBodyType(out _))
 				.Should()
 				.Throw<ArgumentNullException>();
 		}

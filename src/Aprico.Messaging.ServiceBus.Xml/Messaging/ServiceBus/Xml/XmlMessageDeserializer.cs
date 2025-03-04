@@ -33,8 +33,7 @@ public class XmlMessageDeserializer : AbstractXmlMessageDeserializer<XmlMessageD
 	public object DeserializeBody(ServiceBusReceivedMessage message)
 	{
 		ArgumentNullException.ThrowIfNull(message);
-		var xmlFullyQualifiedName = message.GetMessageType();
-		var contractType = GetXmlContract(xmlFullyQualifiedName);
+		var contractType = GetXmlContract(message.GetMessageBodyType());
 		return DeserializeBody(contractType, message.Body);
 	}
 

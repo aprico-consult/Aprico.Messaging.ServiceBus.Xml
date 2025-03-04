@@ -1,13 +1,13 @@
 #region Copyright & License
 
 // Copyright © 2024 - 2025 Aprico Consultants
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 // http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -117,37 +117,37 @@ public static class ServiceBusReceivedMessageExtensions
 
 	#endregion
 
-	#region MessageType
+	#region MessageBodyType
 
-	public static string GetMessageType(this ServiceBusReceivedMessage message)
+	public static string GetMessageBodyType(this ServiceBusReceivedMessage message)
 	{
 		ArgumentNullException.ThrowIfNull(message);
-		return message.ApplicationProperties.GetMessageType();
+		return message.ApplicationProperties.GetMessageBodyType();
 	}
 
-	public static string GetMessageType(this IReadOnlyDictionary<string, object> properties)
+	public static string GetMessageBodyType(this IReadOnlyDictionary<string, object> properties)
 	{
 		ArgumentNullException.ThrowIfNull(properties);
-		if (properties.TryGetMessageType(out var messageType)) return messageType;
+		if (properties.TryGetMessageBodyType(out var messageType)) return messageType;
 		throw new InvalidOperationException(
 			$"{nameof(ServiceBusReceivedMessage)}.{nameof(ServiceBusReceivedMessage.ApplicationProperties)} does not define a {ApplicationPropertyNames.MESSAGE_TYPE_PROPERTY} property.");
 	}
 
-	public static bool TryGetMessageType(this ServiceBusReceivedMessage message, [NotNullWhen(returnValue: true)] out string? messageType)
+	public static bool TryGetMessageBodyType(this ServiceBusReceivedMessage message, [NotNullWhen(returnValue: true)] out string? messageBodyType)
 	{
 		ArgumentNullException.ThrowIfNull(message);
-		return message.ApplicationProperties.TryGetMessageType(out messageType);
+		return message.ApplicationProperties.TryGetMessageBodyType(out messageBodyType);
 	}
 
-	public static bool TryGetMessageType(this IReadOnlyDictionary<string, object> properties, [NotNullWhen(returnValue: true)] out string? messageType)
+	public static bool TryGetMessageBodyType(this IReadOnlyDictionary<string, object> properties, [NotNullWhen(returnValue: true)] out string? messageBodyType)
 	{
 		ArgumentNullException.ThrowIfNull(properties);
 		if (properties.TryGetValue(ApplicationPropertyNames.MESSAGE_TYPE_PROPERTY, out var value))
 		{
-			messageType = (string) value;
+			messageBodyType = (string) value;
 			return true;
 		}
-		messageType = null;
+		messageBodyType = null;
 		return false;
 	}
 
