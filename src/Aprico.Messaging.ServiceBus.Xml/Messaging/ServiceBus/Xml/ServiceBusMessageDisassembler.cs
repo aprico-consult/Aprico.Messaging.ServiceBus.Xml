@@ -26,35 +26,33 @@ using Azure.Messaging.ServiceBus;
 namespace Aprico.Messaging.ServiceBus.Xml;
 
 /// <summary>
-/// Provides XML deserialization functionality for <see cref="ServiceBusReceivedMessage"/>'s
+/// Disassembles <see cref="ServiceBusReceivedMessage"/> messages and provides XML deserialization of their
 /// <see cref="ServiceBusReceivedMessage.Body"/>.
 /// </summary>
-/// <remarks>
-/// This class implements message deserialization for XML-based messages in a Service Bus context. It inherits from
-/// <see cref="AbstractXmlMessageDeserializer{XmlMessageDeserializer}"/> and implements the
-/// <see cref="IMessageDeserializer{ServiceBusReceivedMessage}"/> interface.
-/// </remarks>
+/// <remarks>This class enables message processing of XML-serialized <see cref="ServiceBusReceivedMessage"/> message payloads.</remarks>
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global", Justification = "Public API.")]
-public class XmlMessageDeserializer : AbstractXmlMessageDeserializer<XmlMessageDeserializer>, IMessageDeserializer<ServiceBusReceivedMessage>
+public class ServiceBusMessageDisassembler(MessageContractRegistry messageContractRegistry) : IMessageDisassembler<ServiceBusReceivedMessage>
 {
-	#region IMessageDeserializer<ServiceBusReceivedMessage> Members
+	#region IMessageDisassembler<ServiceBusReceivedMessage> Members
 
-	/// <summary>Deserializes the body of a <see cref="ServiceBusReceivedMessage"/> to its corresponding object type.</summary>
+	/// <summary>
+	/// Disassembles a <see cref="ServiceBusReceivedMessage"/> and returns its XML-deserialized
+	/// <see cref="ServiceBusReceivedMessage.Body"/>.
+	/// </summary>
 	/// <param name="message">
 	/// The <see cref="ServiceBusReceivedMessage"/> message whose <see cref="ServiceBusReceivedMessage.Body"/> is
 	/// to be deserialized.
 	/// </param>
-	/// <returns>
-	/// The deserialized object representing the
-	/// <see cref="ServiceBusReceivedMessage.Body">ServiceBusReceivedMessage.Body</see>.
-	/// </returns>
-	/// <exception cref="ArgumentNullException">Thrown if the <paramref name="message"/> is <see langword="null"/>.</exception>
+	/// <returns>The deserialized payload object contained in the <see cref="ServiceBusReceivedMessage.Body"/>.</returns>
+	/// <exception cref="ArgumentNullException">Thrown when the input <paramref name="message"/> is <see langword="null"/>.</exception>
 	public object DeserializeBody(ServiceBusReceivedMessage message)
 	{
 		ArgumentNullException.ThrowIfNull(message);
-		var contractType = GetXmlContract(message.GetMessageBodyType());
-		return DeserializeBody(contractType, message.Body);
+		var contractType = _messageContractRegistry.GetRegisteredContract(message.GetMessageBodyType());
+		return XmlBodyDeserializer.Deserialize(contractType, message.Body);
 	}
 
 	#endregion
+
+	private readonly MessageContractRegistry _messageContractRegistry = messageContractRegistry ?? throw new ArgumentNullException(nameof(messageContractRegistry));
 }

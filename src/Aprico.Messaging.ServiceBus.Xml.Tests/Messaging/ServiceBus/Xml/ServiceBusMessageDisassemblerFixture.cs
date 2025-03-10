@@ -20,43 +20,39 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Aprico.Extensions;
+using Aprico.Messaging.Message.Deserializer;
 using Aprico.Messaging.ServiceBus.Xml.Dummies;
 using Aprico.Xml.Extensions;
-using AutoFixture.Xunit2;
 using Azure.Messaging.ServiceBus;
 
 namespace Aprico.Messaging.ServiceBus.Xml;
 
-public class XmlMessageDeserializerFixture
+public class ServiceBusMessageDisassemblerFixture
 {
-	[Theory]
-	[AutoData]
-	public void DeserializeRegisteredXmlContract(XmlMessageDeserializer sut)
+	[Fact]
+	public void DeserializeRegisteredXmlContract()
 	{
-		var message = BuildServiceBusReceivedMessage<FullyQualifiedDummy>();
-		var body = sut.AddXmlContract<FullyQualifiedDummy>()
-			.DeserializeBody(message);
-		body.Should()
+		ServiceBusMessageDisassembler sut = new(MessageContractRegistry.RegisterContract<FullyQualifiedDummy>());
+		sut.DeserializeBody(BuildServiceBusReceivedMessage<FullyQualifiedDummy>())
+			.Should()
 			.BeOfType<FullyQualifiedDummy>();
 	}
 
-	[Theory]
-	[AutoData]
+	[Fact]
 	[SuppressMessage("ReSharper", "NullableWarningSuppressionIsUsed")]
-	public void ThrowsWhenMessageIsNull(XmlMessageDeserializer sut)
+	public void ThrowsWhenMessageIsNull()
 	{
+		ServiceBusMessageDisassembler sut = new(MessageContractRegistry);
 		Invoking(() => sut.DeserializeBody(null!))
 			.Should()
 			.Throw<ArgumentNullException>();
 	}
 
-	[Theory]
-	[AutoData]
-	public void ThrowsWhenXmlContractIsNotRegistered(XmlMessageDeserializer sut)
+	[Fact]
+	public void ThrowsWhenXmlContractIsNotRegistered()
 	{
-		var message = BuildServiceBusReceivedMessage<PartiallyQualifiedDummy>();
-
-		Invoking(() => sut.DeserializeBody(message))
+		ServiceBusMessageDisassembler sut = new(MessageContractRegistry);
+		Invoking(() => sut.DeserializeBody(BuildServiceBusReceivedMessage<PartiallyQualifiedDummy>()))
 			.Should()
 			.Throw<InvalidOperationException>();
 	}
@@ -71,4 +67,6 @@ public class XmlMessageDeserializerFixture
 			});
 		return message;
 	}
+
+	private MessageContractRegistry MessageContractRegistry { get; } = new(static type => type.GetXmlFullyQualifiedName());
 }

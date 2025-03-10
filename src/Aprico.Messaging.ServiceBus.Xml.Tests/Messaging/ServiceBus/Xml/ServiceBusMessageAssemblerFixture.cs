@@ -24,11 +24,11 @@ using AutoFixture.Xunit2;
 
 namespace Aprico.Messaging.ServiceBus.Xml;
 
-public class XmlMessageSerializerFixture
+public class ServiceBusMessageAssemblerFixture
 {
 	[Theory]
 	[AutoData]
-	public void CannotSerializeUnqualifiedContract(XmlMessageSerializer sut)
+	public void CannotSerializeUnqualifiedContract(ServiceBusMessageAssembler sut)
 	{
 		Invoking(() => sut.Serialize(new UnqualifiedDummy()))
 			.Should()
@@ -37,7 +37,7 @@ public class XmlMessageSerializerFixture
 
 	[Theory]
 	[AutoData]
-	public void CanSerializeFullyQualifiedContract(XmlMessageSerializer sut)
+	public void CanSerializeFullyQualifiedContract(ServiceBusMessageAssembler sut)
 	{
 		var message = sut.Serialize(new FullyQualifiedDummy());
 		message.ApplicationProperties[ApplicationPropertyNames.MessageBodyType]
@@ -47,7 +47,7 @@ public class XmlMessageSerializerFixture
 
 	[Theory]
 	[AutoData]
-	public void CanSerializePartiallyQualifiedContract(XmlMessageSerializer sut)
+	public void CanSerializePartiallyQualifiedContract(ServiceBusMessageAssembler sut)
 	{
 		var message = sut.Serialize(new PartiallyQualifiedDummy());
 		message.ApplicationProperties[ApplicationPropertyNames.MessageBodyType]
@@ -57,7 +57,7 @@ public class XmlMessageSerializerFixture
 
 	[Theory]
 	[AutoData]
-	public void SetsMessageId(XmlMessageSerializer sut)
+	public void SetsMessageId(ServiceBusMessageAssembler sut)
 	{
 		var message = sut.Serialize(new FullyQualifiedDummy());
 		message.MessageId.Should()
@@ -74,7 +74,7 @@ public class XmlMessageSerializerFixture
 		string businessId,
 		DateTimeOffset timestamp,
 		DateTimeOffset scheduledEnqueueTime,
-		XmlMessageSerializer sut)
+		ServiceBusMessageAssembler sut)
 	{
 		var message = sut.Serialize(new FullyQualifiedDummy(), messageId, correlationId, sessionId, businessId, timestamp, scheduledEnqueueTime);
 		message.MessageId.Should()
@@ -96,7 +96,7 @@ public class XmlMessageSerializerFixture
 	[Theory]
 	[AutoData]
 	[SuppressMessage("ReSharper", "NullableWarningSuppressionIsUsed")]
-	public void ThrowsWhenBodyIsNull(XmlMessageSerializer sut)
+	public void ThrowsWhenBodyIsNull(ServiceBusMessageAssembler sut)
 	{
 		Invoking(() => sut.Serialize<FullyQualifiedDummy>(null!))
 			.Should()

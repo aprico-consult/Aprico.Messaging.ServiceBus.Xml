@@ -32,7 +32,7 @@ namespace Aprico.Messaging.ServiceBus.Xml;
 /// properties and configurations.
 /// </remarks>
 [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global", Justification = "Public API.")]
-public class XmlMessageSerializer : IMessageSerializer<ServiceBusMessage>
+public class ServiceBusMessageAssembler : IMessageAssembler<ServiceBusMessage>
 {
 	#region IMessageSerializer<ServiceBusMessage> Members
 
