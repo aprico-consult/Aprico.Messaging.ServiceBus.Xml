@@ -20,7 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Aprico.Extensions;
-using Aprico.Messaging.Message.Deserializer;
 using Aprico.Messaging.ServiceBus.Xml.Dummies;
 using Aprico.Xml.Extensions;
 using Azure.Messaging.ServiceBus;
@@ -29,6 +28,15 @@ namespace Aprico.Messaging.ServiceBus.Xml;
 
 public class ServiceBusMessageDisassemblerFixture
 {
+	[Fact]
+	public void DeserializeGivesPrecedenceToRegistryArgument()
+	{
+		ServiceBusMessageDisassembler sut = new(MessageContractRegistry.RegisterContract<FullyQualifiedDummy>());
+		Invoking(() => sut.DeserializeBody(BuildServiceBusReceivedMessage<FullyQualifiedDummy>(), new XmlMessageContractRegistry()))
+			.Should()
+			.Throw<InvalidOperationException>();
+	}
+
 	[Fact]
 	public void DeserializeRegisteredXmlContract()
 	{
@@ -68,5 +76,5 @@ public class ServiceBusMessageDisassemblerFixture
 		return message;
 	}
 
-	private MessageContractRegistry MessageContractRegistry { get; } = new(static type => type.GetXmlFullyQualifiedName());
+	private XmlMessageContractRegistry MessageContractRegistry { get; } = new();
 }
