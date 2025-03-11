@@ -30,7 +30,7 @@ namespace Aprico.Messaging.ServiceBus.Xml;
 /// <see cref="ServiceBusReceivedMessage.Body"/>.
 /// </summary>
 /// <remarks>This class enables message processing of XML-serialized <see cref="ServiceBusReceivedMessage"/> message payloads.</remarks>
-[SuppressMessage("ReSharper", "ClassNeverInstantiated.Global", Justification = "Public API.")]
+[SuppressMessage("ReSharper", "MemberCanBeInternal", Justification = "Public API.")]
 public class ServiceBusMessageDisassembler(MessageContractRegistry messageContractRegistry) : IMessageDisassembler<ServiceBusReceivedMessage>
 {
 	#region IMessageDisassembler<ServiceBusReceivedMessage> Members

@@ -33,6 +33,7 @@
       <PackageReference Include="Aprico.Messaging.Xml"/>
       <PackageReference Include="Azure.Messaging.ServiceBus"/>
       <PackageReference Include="Be.Stateless.Extensions"/>
+      <PackageReference Include="Microsoft.SourceLink.GitHub"/>
    </ItemGroup>
 
 </Project>
