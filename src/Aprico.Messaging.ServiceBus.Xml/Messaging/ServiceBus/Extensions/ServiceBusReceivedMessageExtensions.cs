@@ -183,6 +183,27 @@ public static class ServiceBusReceivedMessageExtensions
 	#region BusinessId
 
 	/// <summary>
+	/// Retrieves the <see cref="ApplicationPropertyNames.BusinessId"/> from a <see cref="ServiceBusMessage"/>'s
+	/// <see cref="ServiceBusMessage.ApplicationProperties"/>.
+	/// </summary>
+	/// <param name="message">The <see cref="ServiceBusMessage"/> to extract the property from.</param>
+	/// <returns>
+	/// The value of the <see cref="ApplicationPropertyNames.BusinessId"/> stored in the <see cref="ServiceBusMessage"/>'s
+	/// <see cref="ServiceBusMessage.ApplicationProperties"/>.
+	/// </returns>
+	/// <exception cref="ArgumentNullException">Thrown if the <paramref name="message"/> is <see langword="null"/>.</exception>
+	/// <exception cref="InvalidOperationException">
+	/// Thrown if the property is not defined in the <see cref="ServiceBusMessage"/>'s
+	/// <see cref="ServiceBusMessage.ApplicationProperties"/>.
+	/// </exception>
+	public static string GetBusinessId(this ServiceBusMessage message)
+	{
+		ArgumentNullException.ThrowIfNull(message);
+		return message.ApplicationProperties.AsReadOnly()
+			.GetBusinessId();
+	}
+
+	/// <summary>
 	/// Retrieves the <see cref="ApplicationPropertyNames.BusinessId"/> from a <see cref="ServiceBusReceivedMessage"/>'s
 	/// <see cref="ServiceBusReceivedMessage.ApplicationProperties"/>.
 	/// </summary>
@@ -222,6 +243,30 @@ public static class ServiceBusReceivedMessageExtensions
 		if (properties.TryGetBusinessId(out var businessId)) return businessId;
 		throw new InvalidOperationException(
 			$"{nameof(ServiceBusReceivedMessage)}.{nameof(ServiceBusReceivedMessage.ApplicationProperties)} does not define a {ApplicationPropertyNames.BusinessId} property.");
+	}
+
+	/// <summary>
+	/// Attempts to retrieve the <see cref="ApplicationPropertyNames.BusinessId"/> from a <see cref="ServiceBusMessage"/>'s
+	/// <see cref="ServiceBusMessage.ApplicationProperties"/>.
+	/// </summary>
+	/// <param name="message">
+	/// The <see cref="ServiceBusMessage"/> to extract the <see cref="ApplicationPropertyNames.BusinessId"/>
+	/// from.
+	/// </param>
+	/// <param name="businessId">
+	/// When this method returns, contains the <see cref="ApplicationPropertyNames.BusinessId"/> if found,
+	/// otherwise <see langword="null"/>.
+	/// </param>
+	/// <returns>
+	/// <see langword="true"/> if the <see cref="ApplicationPropertyNames.BusinessId"/> is successfully retrieved; otherwise,
+	/// <see langword="false"/>.
+	/// </returns>
+	/// <exception cref="ArgumentNullException">Thrown if the <paramref name="message"/> is <see langword="null"/>.</exception>
+	public static bool TryGetBusinessId(this ServiceBusMessage message, [NotNullWhen(returnValue: true)] out string? businessId)
+	{
+		ArgumentNullException.ThrowIfNull(message);
+		return message.ApplicationProperties.AsReadOnly()
+			.TryGetBusinessId(out businessId);
 	}
 
 	/// <summary>
@@ -278,6 +323,26 @@ public static class ServiceBusReceivedMessageExtensions
 	#region MessageBodyType
 
 	/// <summary>
+	/// Retrieves the <see cref="ApplicationPropertyNames.MessageBodyType"/> from a <see cref="ServiceBusMessage"/>'s
+	/// <see cref="ServiceBusMessage.ApplicationProperties"/>.
+	/// </summary>
+	/// <param name="message">
+	/// The <see cref="ServiceBusMessage"/> to extract the <see cref="ApplicationPropertyNames.MessageBodyType"/>
+	/// from.
+	/// </param>
+	/// <returns>
+	/// The <see cref="ApplicationPropertyNames.MessageBodyType"/> stored in the
+	/// <see cref="ServiceBusMessage.ApplicationProperties"/>.
+	/// </returns>
+	/// <exception cref="ArgumentNullException">Thrown if the <paramref name="message"/> is <see langword="null"/>.</exception>
+	public static string GetMessageBodyType(this ServiceBusMessage message)
+	{
+		ArgumentNullException.ThrowIfNull(message);
+		return message.ApplicationProperties.AsReadOnly()
+			.GetMessageBodyType();
+	}
+
+	/// <summary>
 	/// Retrieves the <see cref="ApplicationPropertyNames.MessageBodyType"/> from a <see cref="ServiceBusReceivedMessage"/>'s
 	/// <see cref="ServiceBusReceivedMessage.ApplicationProperties"/>.
 	/// </summary>
@@ -316,6 +381,31 @@ public static class ServiceBusReceivedMessageExtensions
 		if (properties.TryGetMessageBodyType(out var messageType)) return messageType;
 		throw new InvalidOperationException(
 			$"{nameof(ServiceBusReceivedMessage)}.{nameof(ServiceBusReceivedMessage.ApplicationProperties)} does not define a {ApplicationPropertyNames.MessageBodyType} property.");
+	}
+
+	/// <summary>
+	/// Attempts to retrieve the <see cref="ApplicationPropertyNames.MessageBodyType"/> from a <see cref="ServiceBusMessage"/>
+	/// 's <see cref="ServiceBusMessage.ApplicationProperties"/>.
+	/// </summary>
+	/// <param name="message">
+	/// The <see cref="ServiceBusMessage"/> to extract the <see cref="ApplicationPropertyNames.MessageBodyType"/>
+	/// from.
+	/// </param>
+	/// <param name="messageBodyType">
+	/// When this method returns, contains the <see cref="ApplicationPropertyNames.MessageBodyType"/> if
+	/// found in the <see cref="ServiceBusMessage"/>'s <see cref="ServiceBusMessage.ApplicationProperties"/>, otherwise
+	/// <see langword="null"/>.
+	/// </param>
+	/// <returns>
+	/// <see langword="true"/> if the <see cref="ApplicationPropertyNames.MessageBodyType"/> is successfully retrieved;
+	/// otherwise, <see langword="false"/>.
+	/// </returns>
+	/// <exception cref="ArgumentNullException">Thrown if the <paramref name="message"/> is <see langword="null"/>.</exception>
+	public static bool TryGetMessageBodyType(this ServiceBusMessage message, [NotNullWhen(returnValue: true)] out string? messageBodyType)
+	{
+		ArgumentNullException.ThrowIfNull(message);
+		return message.ApplicationProperties.AsReadOnly()
+			.TryGetMessageBodyType(out messageBodyType);
 	}
 
 	/// <summary>
@@ -373,6 +463,23 @@ public static class ServiceBusReceivedMessageExtensions
 	#region Timestamp
 
 	/// <summary>
+	/// Retrieves the <see cref="ApplicationPropertyNames.Timestamp"/> from a <see cref="ServiceBusMessage"/>'s
+	/// <see cref="ServiceBusMessage.ApplicationProperties"/>.
+	/// </summary>
+	/// <param name="message">The <see cref="ServiceBusMessage"/> to extract the <see cref="ApplicationPropertyNames.Timestamp"/> from.</param>
+	/// <returns>
+	/// The <see cref="ApplicationPropertyNames.Timestamp"/> stored in the
+	/// <see cref="ServiceBusMessage.ApplicationProperties"/>.
+	/// </returns>
+	/// <exception cref="ArgumentNullException">Thrown if the <paramref name="message"/> is <see langword="null"/>.</exception>
+	public static DateTimeOffset GetTimestamp(this ServiceBusMessage message)
+	{
+		ArgumentNullException.ThrowIfNull(message);
+		return message.ApplicationProperties.AsReadOnly()
+			.GetTimestamp();
+	}
+
+	/// <summary>
 	/// Retrieves the <see cref="ApplicationPropertyNames.Timestamp"/> from a <see cref="ServiceBusReceivedMessage"/>'s
 	/// <see cref="ServiceBusReceivedMessage.ApplicationProperties"/>.
 	/// </summary>
@@ -411,6 +518,27 @@ public static class ServiceBusReceivedMessageExtensions
 		if (properties.TryGetTimestamp(out var timestamp)) return (DateTimeOffset) timestamp;
 		throw new InvalidOperationException(
 			$"{nameof(ServiceBusReceivedMessage)}.{nameof(ServiceBusReceivedMessage.ApplicationProperties)} does not define a {ApplicationPropertyNames.Timestamp} property.");
+	}
+
+	/// <summary>
+	/// Attempts to retrieve the <see cref="ApplicationPropertyNames.Timestamp"/> from a <see cref="ServiceBusMessage"/>'s
+	/// <see cref="ServiceBusMessage.ApplicationProperties"/>.
+	/// </summary>
+	/// <param name="message">The <see cref="ServiceBusMessage"/> to extract the <see cref="ApplicationPropertyNames.Timestamp"/> from.</param>
+	/// <param name="timestamp">
+	/// When this method returns, contains the <see cref="ApplicationPropertyNames.Timestamp"/> if found;
+	/// otherwise, <see langword="null"/>.
+	/// </param>
+	/// <returns>
+	/// <see langword="true"/> if the <see cref="ApplicationPropertyNames.Timestamp"/> is successfully retrieved; otherwise,
+	/// <see langword="false"/>.
+	/// </returns>
+	/// <exception cref="ArgumentNullException">Thrown if the <paramref name="message"/> is <see langword="null"/>.</exception>
+	public static bool TryGetTimestamp(this ServiceBusMessage message, [NotNullWhen(returnValue: true)] out DateTimeOffset? timestamp)
+	{
+		ArgumentNullException.ThrowIfNull(message);
+		return message.ApplicationProperties.AsReadOnly()
+			.TryGetTimestamp(out timestamp);
 	}
 
 	/// <summary>
