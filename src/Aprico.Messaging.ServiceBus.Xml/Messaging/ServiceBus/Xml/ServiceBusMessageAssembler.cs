@@ -19,7 +19,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using Aprico.Extensions;
-using Aprico.Messaging.Abstractions;
 using Aprico.Xml.Extensions;
 using Azure.Messaging.ServiceBus;
 using Be.Stateless.Extensions;

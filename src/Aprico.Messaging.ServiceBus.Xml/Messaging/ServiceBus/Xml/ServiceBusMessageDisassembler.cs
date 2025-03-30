@@ -18,7 +18,6 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using Aprico.Messaging.Abstractions;
 using Aprico.Messaging.Message.Deserializer;
 using Aprico.Messaging.ServiceBus.Extensions;
 using Azure.Messaging.ServiceBus;
