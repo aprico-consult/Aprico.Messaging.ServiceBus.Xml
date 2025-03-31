@@ -52,7 +52,7 @@ public class ServiceBusMessageAssembler : IMessageAssembler<ServiceBusMessage>
 	/// the given <paramref name="body"/> argument.
 	/// </returns>
 	/// <exception cref="ArgumentNullException">Thrown if the <paramref name="body"/> is <see langword="null"/>.</exception>
-	public ServiceBusMessage Serialize<TBody>(
+	public ServiceBusMessage Assemble<TBody>(
 		TBody body,
 		string? messageId = null,
 		string? correlationId = null,

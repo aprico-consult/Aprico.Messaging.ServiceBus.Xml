@@ -1,13 +1,13 @@
 #region Copyright & License
 
 // Copyright © 2024 - 2025 Aprico Consultants
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 // http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,7 +30,7 @@ public class ServiceBusMessageAssemblerFixture
 	[AutoData]
 	public void CannotSerializeUnqualifiedContract(ServiceBusMessageAssembler sut)
 	{
-		Invoking(() => sut.Serialize(new UnqualifiedDummy()))
+		Invoking(() => sut.Assemble(new UnqualifiedDummy()))
 			.Should()
 			.Throw<InvalidOperationException>();
 	}
@@ -39,7 +39,7 @@ public class ServiceBusMessageAssemblerFixture
 	[AutoData]
 	public void CanSerializeFullyQualifiedContract(ServiceBusMessageAssembler sut)
 	{
-		var message = sut.Serialize(new FullyQualifiedDummy());
+		var message = sut.Assemble(new FullyQualifiedDummy());
 		message.ApplicationProperties[ApplicationPropertyNames.MessageBodyType]
 			.Should()
 			.Be(typeof(FullyQualifiedDummy).GetXmlFullyQualifiedName());
@@ -49,7 +49,7 @@ public class ServiceBusMessageAssemblerFixture
 	[AutoData]
 	public void CanSerializePartiallyQualifiedContract(ServiceBusMessageAssembler sut)
 	{
-		var message = sut.Serialize(new PartiallyQualifiedDummy());
+		var message = sut.Assemble(new PartiallyQualifiedDummy());
 		message.ApplicationProperties[ApplicationPropertyNames.MessageBodyType]
 			.Should()
 			.Be(typeof(PartiallyQualifiedDummy).GetXmlFullyQualifiedName());
@@ -59,7 +59,7 @@ public class ServiceBusMessageAssemblerFixture
 	[AutoData]
 	public void SetsMessageId(ServiceBusMessageAssembler sut)
 	{
-		var message = sut.Serialize(new FullyQualifiedDummy());
+		var message = sut.Assemble(new FullyQualifiedDummy());
 		message.MessageId.Should()
 			.NotBeNullOrWhiteSpace()
 			.And.Match(static s => Guid.Parse(s) != Guid.Empty);
@@ -76,7 +76,7 @@ public class ServiceBusMessageAssemblerFixture
 		DateTimeOffset scheduledEnqueueTime,
 		ServiceBusMessageAssembler sut)
 	{
-		var message = sut.Serialize(new FullyQualifiedDummy(), messageId, correlationId, sessionId, businessId, timestamp, scheduledEnqueueTime);
+		var message = sut.Assemble(new FullyQualifiedDummy(), messageId, correlationId, sessionId, businessId, timestamp, scheduledEnqueueTime);
 		message.MessageId.Should()
 			.Be(messageId);
 		message.CorrelationId.Should()
@@ -98,7 +98,7 @@ public class ServiceBusMessageAssemblerFixture
 	[SuppressMessage("ReSharper", "NullableWarningSuppressionIsUsed")]
 	public void ThrowsWhenBodyIsNull(ServiceBusMessageAssembler sut)
 	{
-		Invoking(() => sut.Serialize<FullyQualifiedDummy>(null!))
+		Invoking(() => sut.Assemble<FullyQualifiedDummy>(null!))
 			.Should()
 			.Throw<ArgumentNullException>();
 	}
