@@ -39,16 +39,16 @@ public abstract class ServiceBusReceivedMessageExtensionsFixture
 		[InlineAutoData(ApplicationPropertyNames.Timestamp, true, false)]
 		[InlineAutoData("SomeProperty", false, true)]
 		[InlineAutoData("SomeProperty", true, true)]
-		public void CanIgnoreBusinessContextProperties(
+		public void CanExcludeBusinessContextProperties(
 			string contextProperty,
-			bool ignoreBusinessContextProperties,
+			bool excludeBusinessContextProperties,
 			bool isExpectedToBeContainedInCopy,
 			string contextPropertyValue,
 			ServiceBusMessage target)
 		{
 			var message = CreateServiceBusReceivedMessage(contextProperty, contextPropertyValue);
 
-			message.CopyContextPropertiesTo(target, ignoreBusinessContextProperties, ignoreDeadLetterContextProperties: false);
+			message.CopyContextPropertiesTo(target, excludeBusinessContextProperties, includeDeadLetterContextProperties: false);
 
 			target.ApplicationProperties.ContainsKey(contextProperty)
 				.Should()
@@ -56,22 +56,22 @@ public abstract class ServiceBusReceivedMessageExtensionsFixture
 		}
 
 		[Theory]
-		[InlineAutoData(ApplicationPropertyNames.DeadLetterReason, false, true)]
-		[InlineAutoData(ApplicationPropertyNames.DeadLetterReason, true, false)]
-		[InlineAutoData(ApplicationPropertyNames.DeadLetterErrorDescription, false, true)]
-		[InlineAutoData(ApplicationPropertyNames.DeadLetterErrorDescription, true, false)]
+		[InlineAutoData(ApplicationPropertyNames.DeadLetterReason, false, false)]
+		[InlineAutoData(ApplicationPropertyNames.DeadLetterReason, true, true)]
+		[InlineAutoData(ApplicationPropertyNames.DeadLetterErrorDescription, false, false)]
+		[InlineAutoData(ApplicationPropertyNames.DeadLetterErrorDescription, true, true)]
 		[InlineAutoData("SomeProperty", false, true)]
 		[InlineAutoData("SomeProperty", true, true)]
-		public void CanIgnoreDeadLetterContextProperties(
+		public void CanIncludeDeadLetterContextProperties(
 			string contextProperty,
-			bool ignoreDeadLetterContextProperties,
+			bool includeDeadLetterContextProperties,
 			bool isExpectedToBeContainedInCopy,
 			string contextPropertyValue,
 			ServiceBusMessage target)
 		{
 			var message = CreateServiceBusReceivedMessage(contextProperty, contextPropertyValue);
 
-			message.CopyContextPropertiesTo(target, ignoreBusinessContextProperties: false, ignoreDeadLetterContextProperties);
+			message.CopyContextPropertiesTo(target, excludeBusinessContextProperties: false, includeDeadLetterContextProperties);
 
 			target.ApplicationProperties.ContainsKey(contextProperty)
 				.Should()

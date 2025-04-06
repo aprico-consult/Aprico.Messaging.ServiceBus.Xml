@@ -49,15 +49,15 @@ public static class ServiceBusReceivedMessageExtensions
 	/// <see cref="ServiceBusReceivedMessage.ApplicationProperties"/> to copy.
 	/// </param>
 	/// <param name="target">The target <see cref="ServiceBusMessage"/> where properties will be copied to.</param>
-	/// <param name="ignoreBusinessContextProperties">
-	/// If <see langword="true"/>, business-related context properties (such as
+	/// <param name="excludeBusinessContextProperties">
+	/// If <see langword="true"/>, business-related context properties (namely
 	/// <see cref="ApplicationPropertyNames.BusinessId"/>, <see cref="ApplicationPropertyNames.MessageBodyType"/>, and
-	/// <see cref="ApplicationPropertyNames.Timestamp"/>) will be excluded from copying. It defaults to <see langword="true"/>.
+	/// <see cref="ApplicationPropertyNames.Timestamp"/>) will be excluded from copying. It defaults to <see langword="false"/>.
 	/// </param>
-	/// <param name="ignoreDeadLetterContextProperties">
-	/// If <see langword="true"/>, dead-letter related context properties (such as
+	/// <param name="includeDeadLetterContextProperties">
+	/// If <see langword="true"/>, dead-letter related context properties (namely
 	/// <see cref="ApplicationPropertyNames.DeadLetterReason"/> and <see cref="ApplicationPropertyNames.DeadLetterErrorDescription"/>)
-	/// will be excluded from copying. It defaults to <see langword="true"/>.
+	/// will be included during copying. It defaults to <see langword="false"/>.
 	/// </param>
 	/// <exception cref="ArgumentNullException">
 	/// Thrown if either <paramref name="source"/> or <paramref name="target"/> is
@@ -66,12 +66,12 @@ public static class ServiceBusReceivedMessageExtensions
 	public static void CopyContextPropertiesTo(
 		this ServiceBusReceivedMessage source,
 		ServiceBusMessage target,
-		bool ignoreBusinessContextProperties = true,
-		bool ignoreDeadLetterContextProperties = true)
+		bool excludeBusinessContextProperties = false,
+		bool includeDeadLetterContextProperties = false)
 	{
 		ArgumentNullException.ThrowIfNull(source);
 		ArgumentNullException.ThrowIfNull(target);
-		source.ApplicationProperties.CopyContextPropertiesTo(target.ApplicationProperties, ignoreBusinessContextProperties, ignoreDeadLetterContextProperties);
+		source.ApplicationProperties.CopyContextPropertiesTo(target.ApplicationProperties, excludeBusinessContextProperties, includeDeadLetterContextProperties);
 	}
 
 	/// <summary>
@@ -83,15 +83,15 @@ public static class ServiceBusReceivedMessageExtensions
 	/// <see cref="ServiceBusReceivedMessage.ApplicationProperties"/> to copy.
 	/// </param>
 	/// <param name="target">The target <see cref="IDictionary{String, Object}"/> where properties will be copied to.</param>
-	/// <param name="ignoreBusinessContextProperties">
-	/// If <see langword="true"/>, business-related context properties (such as
+	/// <param name="excludeBusinessContextProperties">
+	/// If <see langword="true"/>, business-related context properties (namely
 	/// <see cref="ApplicationPropertyNames.BusinessId"/>, <see cref="ApplicationPropertyNames.MessageBodyType"/>, and
-	/// <see cref="ApplicationPropertyNames.Timestamp"/>) will be excluded from copying. It defaults to <see langword="true"/>.
+	/// <see cref="ApplicationPropertyNames.Timestamp"/>) will be excluded from copying. It defaults to <see langword="false"/>.
 	/// </param>
-	/// <param name="ignoreDeadLetterContextProperties">
-	/// If <see langword="true"/>, dead-letter related context properties (such as
+	/// <param name="includeDeadLetterContextProperties">
+	/// If <see langword="true"/>, dead-letter related context properties (namely
 	/// <see cref="ApplicationPropertyNames.DeadLetterReason"/> and <see cref="ApplicationPropertyNames.DeadLetterErrorDescription"/>)
-	/// will be excluded from copying. It defaults to <see langword="true"/>.
+	/// will be included during copying. It defaults to <see langword="false"/>.
 	/// </param>
 	/// <exception cref="ArgumentNullException">
 	/// Thrown if either <paramref name="source"/> or <paramref name="target"/> is
@@ -100,11 +100,11 @@ public static class ServiceBusReceivedMessageExtensions
 	public static void CopyContextPropertiesTo(
 		this ServiceBusReceivedMessage source,
 		IDictionary<string, object> target,
-		bool ignoreBusinessContextProperties = true,
-		bool ignoreDeadLetterContextProperties = true)
+		bool excludeBusinessContextProperties = false,
+		bool includeDeadLetterContextProperties = false)
 	{
 		ArgumentNullException.ThrowIfNull(source);
-		source.ApplicationProperties.CopyContextPropertiesTo(target, ignoreBusinessContextProperties, ignoreDeadLetterContextProperties);
+		source.ApplicationProperties.CopyContextPropertiesTo(target, excludeBusinessContextProperties, includeDeadLetterContextProperties);
 	}
 
 	/// <summary>
@@ -116,15 +116,15 @@ public static class ServiceBusReceivedMessageExtensions
 	/// <see cref="ServiceBusReceivedMessage.ApplicationProperties"/> to copy.
 	/// </param>
 	/// <param name="target">The target <see cref="ServiceBusMessage"/> where properties will be copied to.</param>
-	/// <param name="ignoreBusinessContextProperties">
-	/// If <see langword="true"/>, business-related context properties (such as
+	/// <param name="excludeBusinessContextProperties">
+	/// If <see langword="true"/>, business-related context properties (namely
 	/// <see cref="ApplicationPropertyNames.BusinessId"/>, <see cref="ApplicationPropertyNames.MessageBodyType"/>, and
-	/// <see cref="ApplicationPropertyNames.Timestamp"/>) will be excluded from copying. It defaults to <see langword="true"/>.
+	/// <see cref="ApplicationPropertyNames.Timestamp"/>) will be excluded from copying. It defaults to <see langword="false"/>.
 	/// </param>
-	/// <param name="ignoreDeadLetterContextProperties">
-	/// If <see langword="true"/>, dead-letter related context properties (such as
+	/// <param name="includeDeadLetterContextProperties">
+	/// If <see langword="true"/>, dead-letter related context properties (namely
 	/// <see cref="ApplicationPropertyNames.DeadLetterReason"/> and <see cref="ApplicationPropertyNames.DeadLetterErrorDescription"/>)
-	/// will be excluded from copying. It defaults to <see langword="true"/>.
+	/// will be included during copying. It defaults to <see langword="false"/>.
 	/// </param>
 	/// <exception cref="ArgumentNullException">
 	/// Thrown if either <paramref name="source"/> or <paramref name="target"/> is
@@ -133,12 +133,12 @@ public static class ServiceBusReceivedMessageExtensions
 	public static void CopyContextPropertiesTo(
 		this IReadOnlyDictionary<string, object> source,
 		ServiceBusMessage target,
-		bool ignoreBusinessContextProperties = true,
-		bool ignoreDeadLetterContextProperties = true)
+		bool excludeBusinessContextProperties = false,
+		bool includeDeadLetterContextProperties = false)
 	{
 		ArgumentNullException.ThrowIfNull(source);
 		ArgumentNullException.ThrowIfNull(target);
-		source.CopyContextPropertiesTo(target.ApplicationProperties, ignoreBusinessContextProperties, ignoreDeadLetterContextProperties);
+		source.CopyContextPropertiesTo(target.ApplicationProperties, excludeBusinessContextProperties, includeDeadLetterContextProperties);
 	}
 
 	/// <summary>
@@ -150,15 +150,15 @@ public static class ServiceBusReceivedMessageExtensions
 	/// <see cref="ServiceBusReceivedMessage.ApplicationProperties"/> to copy.
 	/// </param>
 	/// <param name="target">The target <see cref="IDictionary{String, Object}"/> where properties will be copied to.</param>
-	/// <param name="ignoreBusinessContextProperties">
-	/// If <see langword="true"/>, business-related context properties (such as
+	/// <param name="excludeBusinessContextProperties">
+	/// If <see langword="true"/>, business-related context properties (namely
 	/// <see cref="ApplicationPropertyNames.BusinessId"/>, <see cref="ApplicationPropertyNames.MessageBodyType"/>, and
-	/// <see cref="ApplicationPropertyNames.Timestamp"/>) will be excluded from copying. It defaults to <see langword="true"/>.
+	/// <see cref="ApplicationPropertyNames.Timestamp"/>) will be excluded from copying. It defaults to <see langword="false"/>.
 	/// </param>
-	/// <param name="ignoreDeadLetterContextProperties">
-	/// If <see langword="true"/>, dead-letter related context properties (such as
+	/// <param name="includeDeadLetterContextProperties">
+	/// If <see langword="true"/>, dead-letter related context properties (namely
 	/// <see cref="ApplicationPropertyNames.DeadLetterReason"/> and <see cref="ApplicationPropertyNames.DeadLetterErrorDescription"/>)
-	/// will be excluded from copying. It defaults to <see langword="true"/>.
+	/// will be included during copying. It defaults to <see langword="false"/>.
 	/// </param>
 	/// <exception cref="ArgumentNullException">
 	/// Thrown if either <paramref name="source"/> or <paramref name="target"/> is
@@ -167,14 +167,14 @@ public static class ServiceBusReceivedMessageExtensions
 	public static void CopyContextPropertiesTo(
 		this IReadOnlyDictionary<string, object> source,
 		IDictionary<string, object> target,
-		bool ignoreBusinessContextProperties = true,
-		bool ignoreDeadLetterContextProperties = true)
+		bool excludeBusinessContextProperties = false,
+		bool includeDeadLetterContextProperties = false)
 	{
-		source.Where(kvp => !ignoreBusinessContextProperties || kvp.Key != ApplicationPropertyNames.BusinessId)
-			.Where(kvp => !ignoreBusinessContextProperties || kvp.Key != ApplicationPropertyNames.MessageBodyType)
-			.Where(kvp => !ignoreBusinessContextProperties || kvp.Key != ApplicationPropertyNames.Timestamp)
-			.Where(kvp => !ignoreDeadLetterContextProperties || kvp.Key != ApplicationPropertyNames.DeadLetterReason)
-			.Where(kvp => !ignoreDeadLetterContextProperties || kvp.Key != ApplicationPropertyNames.DeadLetterErrorDescription)
+		source.Where(kvp => kvp.Key != ApplicationPropertyNames.BusinessId || !excludeBusinessContextProperties)
+			.Where(kvp => kvp.Key != ApplicationPropertyNames.MessageBodyType || !excludeBusinessContextProperties)
+			.Where(kvp => kvp.Key != ApplicationPropertyNames.Timestamp || !excludeBusinessContextProperties)
+			.Where(kvp => kvp.Key != ApplicationPropertyNames.DeadLetterReason || includeDeadLetterContextProperties)
+			.Where(kvp => kvp.Key != ApplicationPropertyNames.DeadLetterErrorDescription || includeDeadLetterContextProperties)
 			.ForEach(kvp => target.Add(kvp.Key, kvp.Value));
 	}
 
