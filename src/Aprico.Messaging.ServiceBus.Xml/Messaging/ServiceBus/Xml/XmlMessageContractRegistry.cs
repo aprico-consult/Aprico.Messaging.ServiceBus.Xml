@@ -16,9 +16,8 @@
 
 #endregion
 
-using System.Diagnostics.CodeAnalysis;
 using Aprico.Extensions;
-using Aprico.Messaging.Message.Deserializer;
+using Aprico.Messaging.Contracts.Deserialization;
 
 namespace Aprico.Messaging.ServiceBus.Xml;
 
