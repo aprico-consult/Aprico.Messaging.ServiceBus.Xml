@@ -16,6 +16,7 @@
 
 #endregion
 
+using System.Diagnostics.CodeAnalysis;
 using Aprico.Extensions;
 using Aprico.Messaging.Contracts.Deserialization;
 
@@ -28,4 +29,5 @@ namespace Aprico.Messaging.ServiceBus.Xml;
 /// </remarks>
 /// <seealso cref="IMessageContractRegistry"/>
 /// <seealso cref="MessageContractRegistry"/>
+[SuppressMessage("ReSharper", "MemberCanBeInternal", Justification = "Public API.")]
 public class XmlMessageContractRegistry() : MessageContractRegistry(static type => type.GetXmlFullyQualifiedName());
